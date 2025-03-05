@@ -1,7 +1,7 @@
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 10;
 public final static int NUM_COLS = 10;
-public final static float NUM_MINES = (NUM_ROWS * NUM_COLS) * 0.3;
+public final static float NUM_MINES = (NUM_ROWS * NUM_COLS) * .3;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 
@@ -65,7 +65,6 @@ public boolean isValid(int r, int c) {
 
 public int countMines(int row, int col) {
   int numMines = 0;
-  int[][] grid = new int[NUM_ROWS][NUM_COLS];
   for(int j = -1; j <= 1; j++) {
     for(int k = -1; k <= 1; k++) {
       if(j == 0 && k == 0) {
@@ -73,7 +72,7 @@ public int countMines(int row, int col) {
       }
       int newRow = row + j;
       int newCol = col + k;
-      if(isValid(newRow, newCol) && grid[newRow][newCol] == NUM_MINES) {
+      if(isValid(newRow, newCol) && mines.contains(buttons[newRow][newCol])) {
         numMines++;
       }
     }
@@ -111,6 +110,10 @@ public class MSButton {
     else if(mines.contains(this)) {
       displayLosingMessage();
     }
+    else if(countMines(myRow, myCol) > 0) {
+      myLabel = "" + (countMines(myRow, myCol));
+    }
+    
   }
   public void draw () {    
     if (flagged)
