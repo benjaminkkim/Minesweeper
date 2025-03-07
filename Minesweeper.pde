@@ -1,6 +1,6 @@
 import de.bezier.guido.*;
-public final static int NUM_ROWS = 10;
-public final static int NUM_COLS = 10;
+public final static int NUM_ROWS = 16;
+public final static int NUM_COLS = 16;
 public final static float NUM_MINES = (NUM_ROWS * NUM_COLS) * .3;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
@@ -44,12 +44,38 @@ public void draw() {
 }
 
 public boolean isWon() {
-  //your code here
+  if(!mines.contains(this)) {
+    return true;
+  }
   return false;
 }
 
 public void displayLosingMessage() {
-  text("trash", 200, 300);
+  if(mines.contains(this))
+   if(isValid(NUM_ROWS-1, NUM_COLS-1) == true) {
+      buttons[NUM_ROWS-1][NUM_COLS-1].mousePressed();
+    }
+    if(isValid(NUM_ROWS-1, NUM_COLS) == true) {
+      buttons[NUM_ROWS-1][NUM_COLS].mousePressed();
+    }
+    if(isValid(NUM_ROWS-1, NUM_COLS+1) == true) {
+      buttons[NUM_ROWS-1][NUM_COLS+1].mousePressed();
+    }
+    if(isValid(NUM_ROWS, NUM_COLS-1) == true) {
+      buttons[NUM_ROWS][NUM_COLS-1].mousePressed();
+    }
+    if(isValid(NUM_ROWS, NUM_COLS+1) == true) {
+      buttons[NUM_ROWS][NUM_COLS+1].mousePressed();
+    }
+    if(isValid(NUM_ROWS+1, NUM_COLS-1) == true) {
+      buttons[NUM_ROWS+1][NUM_COLS-1].mousePressed();
+    }
+    if(isValid(NUM_ROWS+1, NUM_COLS) == true) {
+      buttons[NUM_ROWS+1][NUM_COLS].mousePressed();
+    }
+    if(isValid(NUM_ROWS+1, NUM_COLS+1) == true) {
+      buttons[NUM_ROWS+1][NUM_COLS+1].mousePressed();
+    }
 }
 
 public void displayWinningMessage() {
@@ -102,18 +128,43 @@ public class MSButton {
   public void mousePressed () {
     clicked = true;
     if(mouseButton == RIGHT) {
-      if(flagged == false) {
-        flagged = true;
+      if(flagged == true) {
+        flagged = clicked = false;
       }
-      flagged = clicked = false;
-    } 
+      flagged = true;
+    }
     else if(mines.contains(this)) {
       displayLosingMessage();
     }
     else if(countMines(myRow, myCol) > 0) {
       myLabel = "" + (countMines(myRow, myCol));
     }
-    
+    if(mouseButton == LEFT) {
+      if(isValid(myRow-1, myCol-1) && !mines.contains(buttons[myRow-1][myCol-1])) {
+        buttons[myRow-1][myCol-1].mousePressed();
+      }
+      if(isValid(myRow-1, myCol) && !mines.contains(buttons[myRow-1][myCol])) {
+        buttons[myRow-1][myCol].mousePressed();
+      }
+      if(isValid(myRow-1, myCol+1) && !mines.contains(buttons[myRow-1][myCol+1])) {
+        buttons[myRow-1][myCol+1].mousePressed();
+      }
+      if(isValid(myRow, myCol-1) && !mines.contains(buttons[myRow][myCol-1])) {
+        buttons[myRow][myCol-1].mousePressed();
+      }
+      if(isValid(myRow, myCol+1) && !mines.contains(buttons[myRow][myCol+1])) {
+        buttons[myRow][myCol+1].mousePressed();
+      }
+      if(isValid(myRow+1, myCol-1) && !mines.contains(buttons[myRow+1][myCol-1])) {
+        buttons[myRow+1][myCol-1].mousePressed();
+      }
+      if(isValid(myRow+1, myCol) && !mines.contains(buttons[myRow+1][myCol])) {
+        buttons[myRow+1][myCol].mousePressed();
+      }
+      if(isValid(myRow+1, myCol+1) && !mines.contains(buttons[myRow+1][myCol+1])) {
+        buttons[myRow+1][myCol+1].mousePressed();
+      }
+    }
   }
   public void draw () {    
     if (flagged)
